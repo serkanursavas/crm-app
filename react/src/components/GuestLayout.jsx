@@ -9,13 +9,7 @@ function GuestLayout() {
         return <Navigate to="/" />;
     }
 
-    return (
-        <div className="login-signup-form animated fadeInDown">
-            <div className="form">
-                <Outlet />
-            </div>
-        </div>
-    );
+    return <Outlet />;
 }
 
 export default GuestLayout;
