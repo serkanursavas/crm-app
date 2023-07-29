@@ -12,7 +12,7 @@ use App\Http\Requests\RegisterRequest;
 class AuthController extends Controller
 {
     public function login(LoginRequest $request) {
-        $credentials = $request-> validated();
+        $credentials = $request->validated();
 
         if(!Auth::attempt($credentials)){
             return response([
@@ -43,5 +43,7 @@ class AuthController extends Controller
     public function logout(Request $request) {
         $user = $request->user();
         $user->currentAccessToken()->delete();
+
+        return response('', 204) ;
     }
 }
