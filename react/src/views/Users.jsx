@@ -65,7 +65,7 @@ function Users() {
                     {!loading && (
                         <tbody>
                             {users.map((u) => (
-                                <tr>
+                                <tr key={u.id}>
                                     <td>{u.id}</td>
                                     <td>{u.name}</td>
                                     <td>{u.email}</td>
