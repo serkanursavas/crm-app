@@ -10,6 +10,17 @@ function Users() {
         getUsers();
     }, []);
 
+    const onDelete = (u) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) {
+            return;
+        }
+
+        axiosClient.delete(`/users/${u.id}`).then(() => {
+            // Add notification
+            getUsers();
+        });
+    };
+
     const getUsers = () => {
         setLoading(true);
         axiosClient
@@ -42,22 +53,42 @@ function Users() {
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {users.map((u) => (
+                    {loading && (
+                        <tbody>
                             <tr>
-                                <td>{u.id}</td>
-                                <td>{u.name}</td>
-                                <td>{u.email}</td>
-                                <td>{u.created_at}</td>
-                                <td>
-                                    <Link to={`/users/${u.id}`}>Edit</Link>
-                                    <button className="btn-delete">
-                                        Delete
-                                    </button>
+                                <td colSpan="5" className="text-center">
+                                    Loading...
                                 </td>
                             </tr>
-                        ))}
-                    </tbody>
+                        </tbody>
+                    )}
+                    {!loading && (
+                        <tbody>
+                            {users.map((u) => (
+                                <tr>
+                                    <td>{u.id}</td>
+                                    <td>{u.name}</td>
+                                    <td>{u.email}</td>
+                                    <td>{u.created_at}</td>
+                                    <td>
+                                        <Link
+                                            className="btn-edit"
+                                            to={`/users/${u.id}`}
+                                        >
+                                            Edit
+                                        </Link>
+                                        &nbsp;
+                                        <button
+                                            onClick={(e) => onDelete(u)}
+                                            className="btn-delete"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    )}
                 </table>
             </div>
         </div>
