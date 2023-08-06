@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 
 function UserForm() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         id: null,
@@ -34,11 +35,47 @@ function UserForm() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        if (user.id) {
+            axiosClient
+                .put(`/users/${user.id}`, user)
+                .then(() => {
+                    // Show notification
+                    navigate("/users");
+                })
+                .catch((error) => {
+                    const response = error.response;
+
+                    if (response && response.status === 422) {
+                        console.log(response.data.errors);
+                        setErrors(response.data.errors);
+                    }
+                });
+        } else {
+            axiosClient
+                .post("/users", user)
+                .then(() => {
+                    // show notifi
+                    navigate("/users");
+                })
+                .catch((error) => {
+                    const response = error.response;
+
+                    if (response && response.status === 422) {
+                        console.log(response.data.errors);
+                        setErrors(response.data.errors);
+                    }
+                });
+        }
     };
 
     return (
         <>
-            {id && <h1>Update User: {user.name}</h1>}
+            {id && (
+                <h1>
+                    Update User: {user.name} {user.password}
+                </h1>
+            )}
             {!id && <h1>New User</h1>}
 
             <div className="card animated fadeInDown">
@@ -63,6 +100,7 @@ function UserForm() {
                             value={user.name}
                         />
                         <input
+                            type="email"
                             onChange={(e) =>
                                 setUser({
                                     ...user,
@@ -73,6 +111,7 @@ function UserForm() {
                             value={user.email}
                         />
                         <input
+                            type="password"
                             onChange={(e) =>
                                 setUser({
                                     ...user,
@@ -82,6 +121,7 @@ function UserForm() {
                             placeholder="Password"
                         />
                         <input
+                            type="password"
                             onChange={(e) =>
                                 setUser({
                                     ...user,
@@ -91,6 +131,7 @@ function UserForm() {
                             }
                             placeholder="Password Confirmation"
                         />
+                        <button className="btn">Save</button>
                     </form>
                 )}
             </div>
