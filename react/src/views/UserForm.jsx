@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
+import { useStateContext } from "../context/ContextProvider";
 
 function UserForm() {
     const { id } = useParams();
@@ -16,6 +17,7 @@ function UserForm() {
 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
+    const { setNotification } = useStateContext();
 
     if (id) {
         useEffect(() => {
@@ -40,7 +42,7 @@ function UserForm() {
             axiosClient
                 .put(`/users/${user.id}`, user)
                 .then(() => {
-                    // Show notification
+                    setNotification("User successfully updated");
                     navigate("/users");
                 })
                 .catch((error) => {
@@ -55,7 +57,7 @@ function UserForm() {
             axiosClient
                 .post("/users", user)
                 .then(() => {
-                    // show notifi
+                    setNotification("User successfully created");
                     navigate("/users");
                 })
                 .catch((error) => {
@@ -71,11 +73,7 @@ function UserForm() {
 
     return (
         <>
-            {id && (
-                <h1>
-                    Update User: {user.name} {user.password}
-                </h1>
-            )}
+            {id && <h1>Update User: {user.name}</h1>}
             {!id && <h1>New User</h1>}
 
             <div className="card animated fadeInDown">
