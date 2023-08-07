@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import PaginationLinks from "../components/PaginationLinks";
 
 function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState();
+    const [meta, setMeta] = useState();
     const { setNotification } = useStateContext();
 
     useEffect(() => {
         getUsers();
     }, []);
+
+    const onPageClick = (link) => {
+        getUsers(link.url);
+    };
 
     const onDelete = (u) => {
         if (!window.confirm("Are you sure you want to delete this user?")) {
@@ -23,13 +29,15 @@ function Users() {
         });
     };
 
-    const getUsers = () => {
+    const getUsers = (url) => {
+        url = url || "/users";
         setLoading(true);
         axiosClient
-            .get("/users")
+            .get(url)
             .then(({ data }) => {
                 setLoading(false);
                 setUsers(data.data);
+                setMeta(data.meta);
             })
             .catch(() => {
                 setLoading(false);
@@ -93,6 +101,7 @@ function Users() {
                     )}
                 </table>
             </div>
+            <PaginationLinks meta={meta} onPageClick={onPageClick} />
         </div>
     );
 }
