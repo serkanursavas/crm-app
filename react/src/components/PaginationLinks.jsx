@@ -1,5 +1,3 @@
-// import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-
 const PaginationLinks = ({ meta, onPageClick }) => {
     const onClick = (e, link) => {
         e.preventDefault();
