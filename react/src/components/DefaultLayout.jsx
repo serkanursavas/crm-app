@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axios-client";
 
 function DefaultLayout() {
     const { user, token, setUser, setToken, notification } = useStateContext();
+    const location = useLocation();
+
+    const getPageTitle = () => {
+        const path = location.pathname;
+        const pathSplit = path.toString().toUpperCase().split("/");
+        return pathSplit;
+    };
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -43,7 +50,7 @@ function DefaultLayout() {
             </aside>
             <div className="flex-1">
                 <header className="flex items-center justify-between h-20 px-12 py-8 bg-white shadow-xs">
-                    <div>Header</div>
+                    <div>{getPageTitle()}</div>
                     <div>
                         {user.name}
                         <a

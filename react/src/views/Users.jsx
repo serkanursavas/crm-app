@@ -46,10 +46,9 @@ function Users() {
 
     return (
         <div>
-            <div className="flex items-center justify-between">
-                <h1>Users</h1>
+            <div className="flex items-center justify-end">
                 <Link to="/users/new" className="btn-add">
-                    Add new
+                    Add new user
                 </Link>
             </div>
             <div className="card animated fadeInDown">
