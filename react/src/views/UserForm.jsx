@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
+import Button from "../components/Button";
 
 function UserForm() {
     const { id } = useParams();
@@ -129,7 +130,7 @@ function UserForm() {
                             }
                             placeholder="Password Confirmation"
                         />
-                        <button className="btn">Save</button>
+                        <Button className={"btn"}>Save</Button>
                     </form>
                 )}
             </div>
