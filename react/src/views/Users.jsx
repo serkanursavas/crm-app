@@ -3,6 +3,7 @@ import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import PaginationLinks from "../components/PaginationLinks";
+import Button from "../components/Button";
 
 function Users() {
     const [users, setUsers] = useState([]);
@@ -87,12 +88,12 @@ function Users() {
                                             Edit
                                         </Link>
                                         &nbsp;
-                                        <button
+                                        <Button
                                             onClick={(e) => onDelete(u)}
-                                            className="btn-delete"
+                                            className={"btn-delete"}
                                         >
                                             Delete
-                                        </button>
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}

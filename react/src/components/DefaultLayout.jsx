@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 import axiosClient from "../axios-client";
+import Button from "../components/Button";
 
 function DefaultLayout() {
     const { user, token, setUser, setToken, notification } = useStateContext();
@@ -53,13 +54,15 @@ function DefaultLayout() {
                     <div>{getPageTitle()}</div>
                     <div>
                         {user.name}
-                        <a
-                            href="#"
+
+                        <Button
                             onClick={onLogout}
-                            className="no-underline color-[#212121] transition-all duration-300 rounded-md py-[0.75rem] px-[1.5rem] hover:bg-[rgba(0,0,0,0.1)]"
+                            className={
+                                "no-underline color-[#212121] bg-[rgba(0,0,0,0.1)]  ml-4 transition-all duration-300 rounded-md py-[0.75rem] px-[1.5rem] hover:bg-[rgba(0,0,0,0.05)]"
+                            }
                         >
                             Logout
-                        </a>
+                        </Button>
                     </div>
                 </header>
                 <main className="p-8">
