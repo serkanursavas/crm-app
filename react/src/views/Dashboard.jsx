@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { BeakerIcon } from "@heroicons/react/outline";
+import { UserCircleIcon } from "@heroicons/react/outline";
 
 import axiosClient from "../axios-client";
 import DashboardCard from "../components/DashboardCard";
@@ -23,7 +23,7 @@ function Dashboard() {
             >
                 {data && (
                     <div>
-                        <BeakerIcon />
+                        <UserCircleIcon className="w-32 h-32 m-auto" />
                         <h3 className="mb-3 text-xl font-bold">
                             {data.latestUser.name}
                         </h3>
@@ -37,11 +37,6 @@ function Dashboard() {
                         </div>
                     </div>
                 )}
-                {!data && (
-                    <div className="py-16 text-center text-gray-600">
-                        Your don't have surveys yet
-                    </div>
-                )}
             </DashboardCard>
             <DashboardCard
                 title="Total User"
@@ -51,6 +46,41 @@ function Dashboard() {
                 <div className="flex items-center justify-center flex-1 pb-4 font-semibold text-8xl">
                     {data?.totalUser}
                 </div>
+            </DashboardCard>
+            <DashboardCard
+                title="Latest Updated Users"
+                className="order-4 row-span-2 lg:order-3"
+                style={{ animationDelay: "0.3s" }}
+            >
+                {data && (
+                    <div className="text-left">
+                        {data.latestUserUpdated.map((user, index) => {
+                            return (
+                                <div key={index}>
+                                    <a
+                                        href="#"
+                                        className="block p-2 hover:bg-gray-100/90"
+                                    >
+                                        <div className="font-semibold">
+                                            {user.name}
+                                        </div>
+                                        <small>
+                                            Updated at:{" "}
+                                            <i className="font-semibold">
+                                                {user.updated_at}
+                                            </i>
+                                        </small>
+                                    </a>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+                {!data && (
+                    <div className="py-16 text-center text-gray-600">
+                        There is no updated users yet
+                    </div>
+                )}
             </DashboardCard>
         </div>
     );
